@@ -5,51 +5,88 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>THR Interaktif</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            margin: 0;
-            padding: 0;
+            background-color: #ffcce6;
+            color: white;
             display: flex;
             align-items: center;
             justify-content: center;
             height: 100vh;
             flex-direction: column;
-            background-image: url('https://source.unsplash.com/1600x900/?nature,landscape'); /* Latar belakang pemandangan alam */
-            background-size: cover;
-            background-position: center;
-            color: white;
-        }
-        .container {
-            background: rgba(0, 0, 0, 0.6); /* Latar belakang semi transparan untuk teks */
-            padding: 20px;
-            border-radius: 10px;
+            overflow: hidden;
             position: relative;
-            top: -30px; /* Mengangkat teks sedikit ke atas */
         }
+
+        .container {
+            background: rgba(255, 192, 203, 0.8);
+            padding: 15px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 400px;
+            opacity: 0;
+            transform: translateY(-20px);
+            animation: fadeInSlide 0.5s forwards;
+        }
+
+        @keyframes fadeInSlide {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         .hidden {
             display: none;
         }
+
         .btn {
-            padding: 10px 20px;
+            padding: 10px 15px;
             margin: 10px;
-            font-size: 18px;
+            font-size: 16px;
             cursor: pointer;
             border: none;
-            background: #ff66b2; /* Warna pink */
+            background: #ff66b2;
             color: white;
             border-radius: 5px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
+
         .btn:hover {
-            background: #e60073; /* Warna pink lebih gelap saat hover */
+            background: #e60073;
+            box-shadow: 0 0 10px #ff66b2;
         }
+
+        .btn:active {
+            transform: scale(0.9);
+        }
+
         .move-btn {
             position: absolute;
             transition: 0.2s;
         }
+
+        /* Kanvas untuk bunga sakura */
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
+    <canvas id="sakuraCanvas"></canvas>
 
     <div class="container" id="halaman1">
         <h2>Halo orang beriman, Selamat Hari Raya Idul Fitri!</h2>
@@ -75,36 +112,37 @@
 
     <div class="container hidden" id="halaman5">
         <h2>Saya berjanji akan memberikan THR kepada yang mengirim link ini dan saya kirim SS ke kamu.</h2>
+        <button class="btn" onclick="kembaliKeAwal()">Kembali ke Awal</button>
     </div>
 
     <script>
+        function tampilkanHalaman(id) {
+            let halamanSebelumnya = document.querySelector(".container:not(.hidden)");
+            let halamanBaru = document.getElementById(id);
+
+            if (halamanSebelumnya) {
+                halamanSebelumnya.classList.add("hidden");
+            }
+
+            halamanBaru.classList.remove("hidden");
+            halamanBaru.style.animation = "fadeInSlide 0.5s forwards";
+        }
+
         function lanjut() {
-            document.getElementById('halaman1').classList.add('hidden');
-            document.getElementById('halaman2').classList.remove('hidden');
+            tampilkanHalaman("halaman2");
         }
 
         function thr() {
-            document.getElementById('halaman2').classList.add('hidden');
-            document.getElementById('halaman3').classList.remove('hidden');
+            tampilkanHalaman("halaman3");
         }
 
         let klikKadada = 0;
-        const pesanTHR = [
-            "Ayo, kasih THR dong!",
-            "Masa nggak ada THR sih?",
-            "Hari Raya itu berbagi, lho!",
-            "THR mana, THR?",
-            "Seriusan nggak mau kasih THR?",
-            "Waduh, pelit amat!",
-            "Kasih THR biar berkah!",
-            "Kok gini, kasih THR lah!",
-            "Dikit aja boleh deh!",
-            "Yakin nggak mau kasih THR?",
-            "Ayo lah kasih!",
-            "Kamu orang beriman, kasih dong!",
-            "Aaaaakasianaaaa...",
-            "Barang siapa membagi THR di hari raya maka dapat pahala!",
-            "Aku paksa nah!"
+        let pesanList = [
+            "Ayo, jangan pelit! THR dong!",
+            "Jangan kabur! Beri THR sekarang!",
+            "Lihat itu! Semua orang menunggu THR darimu!",
+            "Masa sih nggak ada THR? Yakin?",
+            "Sungkem dulu, biar THR-nya keluar!"
         ];
 
         function kadada() {
@@ -113,26 +151,104 @@
             let pesan = document.getElementById('pesanKadada');
 
             let maxX = window.innerWidth - btn.offsetWidth - 20;
-            let maxY = window.innerHeight - btn.offsetHeight - 20;
+            let maxY = window.innerHeight / 2;
 
             btn.style.top = Math.random() * maxY + "px";
             btn.style.left = Math.random() * maxX + "px";
 
-            if (klikKadada <= 15) {
-                pesan.textContent = pesanTHR[klikKadada - 1];
-            }
+            let randomPesan = pesanList[Math.floor(Math.random() * pesanList.length)];
+            pesan.innerText = randomPesan;
 
-            if (klikKadada >= 15) {
-                document.getElementById('halaman2').classList.add('hidden');
-                document.getElementById('halaman4').classList.remove('hidden');
+            if (klikKadada >= 10) {
+                tampilkanHalaman("halaman4");
             }
         }
 
         function berikanTHR() {
-            document.getElementById('halaman4').classList.add('hidden');
-            document.getElementById('halaman5').classList.remove('hidden');
+            tampilkanHalaman("halaman5");
         }
-    </script>
 
+        function kembaliKeAwal() {
+            klikKadada = 0;
+            tampilkanHalaman("halaman1");
+        }
+
+        // Efek bunga sakura turun
+        const canvas = document.getElementById("sakuraCanvas");
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let sakura = [];
+
+        function buatSakura() {
+            for (let i = 0; i < 50; i++) {
+                sakura.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 5 + 2,
+                    speed: Math.random() * 2 + 1,
+                    angle: Math.random() * Math.PI * 2
+                });
+            }
+        }
+
+        function gambarSakura() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "pink";
+
+            sakura.forEach((bunga, index) => {
+                ctx.beginPath();
+                ctx.arc(bunga.x, bunga.y, bunga.size, 0, Math.PI * 2);
+                ctx.fill();
+
+                bunga.y += bunga.speed;
+                bunga.x += Math.sin(bunga.angle) * 0.5;
+
+                if (bunga.y > canvas.height) {
+                    sakura[index] = {
+                        x: Math.random() * canvas.width,
+                        y: -10,
+                        size: bunga.size,
+                        speed: bunga.speed,
+                        angle: bunga.angle
+                    };
+                }
+            });
+
+            requestAnimationFrame(gambarSakura);
+        }
+
+        buatSakura();
+        gambarSakura();
+
+        // Efek sentuhan epik
+        document.addEventListener("touchstart", function (e) {
+            let touch = e.touches[0];
+
+            for (let i = 0; i < 10; i++) {
+                let particle = document.createElement("div");
+                particle.style.position = "absolute";
+                particle.style.top = `${touch.clientY}px`;
+                particle.style.left = `${touch.clientX}px`;
+                particle.style.width = "10px";
+                particle.style.height = "10px";
+                particle.style.background = `hsl(${Math.random() * 360}, 100%, 70%)`;
+                particle.style.borderRadius = "50%";
+                particle.style.transition = "transform 0.5s ease-out, opacity 0.5s ease-out";
+
+                document.body.appendChild(particle);
+
+                setTimeout(() => {
+                    particle.style.transform = `translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px) scale(0)`;
+                    particle.style.opacity = "0";
+                }, 50);
+
+                setTimeout(() => {
+                    particle.remove();
+                }, 600);
+            }
+        });
+    </script>
 </body>
-</html>
+    </html> "di buat oleh king of Mon-ui
