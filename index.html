@@ -35,14 +35,14 @@
     <!-- Halaman 2 -->
     <div id="halaman2" class="hidden">
         <h2>Karena hari ini adalah hari raya, jadi adakah THR?</h2>
-        <button class="btn" onclick="thr()">Inh THR</button>
+        <button class="btn" onclick="thr()">nih THR</button>
         <button class="btn move-btn" id="kadada" onclick="kadada()">Kadada</button>
         <p id="pesanKadada"></p>
     </div>
 
     <!-- Halaman 3 (THR diberikan langsung) -->
     <div id="halaman3" class="hidden">
-        <h2>Ya aku berjanji akan memberikan THR kepada kamu ini SS buktinya</h2>
+        <h2>Ya aku berjanji akan memberikan THR kepada kamu ,ini SS buktinya</h2>
     </div>
 
     <!-- Halaman 4 (THR wajib diberikan) -->
@@ -79,6 +79,11 @@
             "Kok gini, kasih THR lah!",
             "Dikit aja boleh deh!",
             "Yakin nggak mau kasih THR?"
+            "ayo lah bagi"
+            "tambuk"
+            "ayo kasih"
+            "aaaaa kasihanaaaaaa"
+            "aku paksa ikam sekali lagi mencet"
         ];
 
         function kadada() {
@@ -89,11 +94,11 @@
             btn.style.top = Math.random() * (window.innerHeight - 50) + "px";
             btn.style.left = Math.random() * (window.innerWidth - 100) + "px";
 
-            if (klikKadada <= 10) {
+            if (klikKadada <= 15) {
                 pesan.textContent = pesanTHR[klikKadada - 1];
             }
 
-            if (klikKadada >= 10) {
+            if (klikKadada >= 15) {
                 document.getElementById('halaman2').classList.add('hidden');
                 document.getElementById('halaman4').classList.remove('hidden');
             }
