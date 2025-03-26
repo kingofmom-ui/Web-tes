@@ -8,14 +8,40 @@
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            margin: 50px;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            flex-direction: column;
+            background-image: url('https://source.unsplash.com/1600x900/?nature,landscape'); /* Latar belakang pemandangan alam */
+            background-size: cover;
+            background-position: center;
+            color: white;
         }
-        .hidden { display: none; }
+        .container {
+            background: rgba(0, 0, 0, 0.6); /* Latar belakang semi transparan untuk teks */
+            padding: 20px;
+            border-radius: 10px;
+            position: relative;
+            top: -30px; /* Mengangkat teks sedikit ke atas */
+        }
+        .hidden {
+            display: none;
+        }
         .btn {
             padding: 10px 20px;
             margin: 10px;
             font-size: 18px;
             cursor: pointer;
+            border: none;
+            background: #ff66b2; /* Warna pink */
+            color: white;
+            border-radius: 5px;
+        }
+        .btn:hover {
+            background: #e60073; /* Warna pink lebih gelap saat hover */
         }
         .move-btn {
             position: absolute;
@@ -25,35 +51,30 @@
 </head>
 <body>
 
-    <!-- Halaman 1 -->
-    <div id="halaman1">
+    <div class="container" id="halaman1">
         <h2>Halo orang beriman, Selamat Hari Raya Idul Fitri!</h2>
         <p>Mohon maaf lahir dan batin</p>
         <button class="btn" onclick="lanjut()">Lanjut</button>
     </div>
 
-    <!-- Halaman 2 -->
-    <div id="halaman2" class="hidden">
+    <div class="container hidden" id="halaman2">
         <h2>Karena hari ini adalah hari raya, jadi adakah THR?</h2>
-        <button class="btn" onclick="thr()">nih THR</button>
+        <button class="btn" onclick="thr()">Nih THR</button>
         <button class="btn move-btn" id="kadada" onclick="kadada()">Kadada</button>
         <p id="pesanKadada"></p>
     </div>
 
-    <!-- Halaman 3 (THR diberikan langsung) -->
-    <div id="halaman3" class="hidden">
-        <h2>Ya aku berjanji akan memberikan THR kepada kamu ,ini SS buktinya</h2>
+    <div class="container hidden" id="halaman3">
+        <h2>Ya aku berjanji akan memberikan THR kepada kamu, ini SS buktinya</h2>
     </div>
 
-    <!-- Halaman 4 (THR wajib diberikan) -->
-    <div id="halaman4" class="hidden">
-        <h2>Kamu harus memberikan THR</h2>
+    <div class="container hidden" id="halaman4">
+        <h2>Kamu harus memberikan THR!</h2>
         <button class="btn" onclick="berikanTHR()">Ya, saya berikan</button>
     </div>
 
-    <!-- Halaman 5 (Janji memberikan THR) -->
-    <div id="halaman5" class="hidden">
-        <h2>Saya berjanji akan memberikan THR kepada yang mengirim link ini dan saya kirim SS ke kamu</h2>
+    <div class="container hidden" id="halaman5">
+        <h2>Saya berjanji akan memberikan THR kepada yang mengirim link ini dan saya kirim SS ke kamu.</h2>
     </div>
 
     <script>
@@ -78,21 +99,24 @@
             "Kasih THR biar berkah!",
             "Kok gini, kasih THR lah!",
             "Dikit aja boleh deh!",
-            "Yakin nggak mau kasih THR?"
-            "ayo lah bagi"
-            "tambuk"
-            "ayo kasih"
-            "aaaaa kasihanaaaaaa"
-            "aku paksa ikam sekali lagi mencet"
+            "Yakin nggak mau kasih THR?",
+            "Ayo lah kasih!",
+            "Kamu orang beriman, kasih dong!",
+            "Aaaaakasianaaaa...",
+            "Barang siapa membagi THR di hari raya maka dapat pahala!",
+            "Aku paksa nah!"
         ];
 
         function kadada() {
             klikKadada++;
             let btn = document.getElementById('kadada');
             let pesan = document.getElementById('pesanKadada');
-            
-            btn.style.top = Math.random() * (window.innerHeight - 50) + "px";
-            btn.style.left = Math.random() * (window.innerWidth - 100) + "px";
+
+            let maxX = window.innerWidth - btn.offsetWidth - 20;
+            let maxY = window.innerHeight - btn.offsetHeight - 20;
+
+            btn.style.top = Math.random() * maxY + "px";
+            btn.style.left = Math.random() * maxX + "px";
 
             if (klikKadada <= 15) {
                 pesan.textContent = pesanTHR[klikKadada - 1];
